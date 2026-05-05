@@ -70,7 +70,7 @@ export default function SceneEnergyBuild() {
     <section
       ref={sectionRef}
       id="classes"
-      className="scene-section relative w-full min-h-[150vh] overflow-hidden"
+      className="scene-section relative w-full min-h-[112svh] overflow-hidden md:min-h-[145vh]"
       style={{ background: 'linear-gradient(180deg, #020205 0%, #0d0520 50%, #020205 100%)' }}
     >
       {/* Background layer - slowest */}
@@ -159,12 +159,12 @@ export default function SceneEnergyBuild() {
       </div>
 
       {/* Content - sticks to center */}
-      <div className="relative z-[20] flex flex-col items-center justify-center min-h-[150vh] py-32">
+      <div className="relative z-[20] flex min-h-[112svh] flex-col items-center justify-center py-20 md:min-h-[145vh] md:py-32">
         <div ref={textRef} className="text-center max-w-4xl mx-auto px-6">
           {/* Section label */}
           <div className="flex items-center justify-center gap-4 mb-8">
             <span className="w-16 h-px bg-[#00d4ff]/40" />
-            <span className="font-mono text-[10px] text-[#00d4ff] tracking-[0.4em] uppercase">Scene 02 — Energy</span>
+            <span className="font-mono text-[10px] text-[#00d4ff] tracking-[0.28em] sm:tracking-[0.4em] uppercase">Scene 02 - Classes</span>
             <span className="w-16 h-px bg-[#00d4ff]/40" />
           </div>
 
@@ -175,12 +175,12 @@ export default function SceneEnergyBuild() {
 
           <p className="font-body text-lg text-white/40 max-w-xl mx-auto leading-relaxed mb-12">
             Every class is a pulse. Every movement is a statement.
-            We train bodies and free souls — because dance isn't learned,
+            We train bodies and free souls - because dance isn't learned,
             it's <em className="text-white/70 not-italic">unleashed.</em>
           </p>
 
           {/* Style cards */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-16">
+          <div className="grid grid-cols-2 gap-3 mt-10 sm:mt-16 md:grid-cols-4">
             {[
               { name: 'BREAKDANCE', color: '#b347ff', delay: 0 },
               { name: 'WAACKING', color: '#00d4ff', delay: 0.1 },
@@ -198,7 +198,7 @@ export default function SceneEnergyBuild() {
                 transition={{ duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] }}
                 viewport={{ once: true }}
                 whileHover={{ scale: 1.05, y: -4 }}
-                className="relative group neon-border p-4 text-center cursor-pointer overflow-hidden"
+                className="relative group neon-border min-h-16 p-4 text-center cursor-pointer overflow-hidden"
                 style={{ borderColor: `${color}33` }}
               >
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"

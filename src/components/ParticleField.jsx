@@ -1,6 +1,10 @@
 import React, { useEffect, useRef, useCallback } from 'react'
 
-const PARTICLE_COUNT = 50 // Reduced for better performance
+const getParticleCount = () => {
+  if (window.matchMedia('(max-width: 640px)').matches) return 18
+  if (window.matchMedia('(max-width: 1024px)').matches) return 30
+  return 44
+}
 const COLORS = ['#b347ff', '#00d4ff', '#ff2d9b']
 
 export default function ParticleField() {
@@ -26,17 +30,17 @@ export default function ParticleField() {
     const ctx = canvas.getContext('2d')
     let { w, h } = canvasSizeRef.current
 
-    // Initialize canvas size
     const resize = () => {
-      w = canvas.width = window.innerWidth
-      h = canvas.height = window.innerHeight
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5)
+      w = window.innerWidth
+      h = window.innerHeight
+      canvas.width = Math.floor(w * dpr)
+      canvas.height = Math.floor(h * dpr)
+      canvas.style.width = `${w}px`
+      canvas.style.height = `${h}px`
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
       canvasSizeRef.current = { w, h }
     }
-
-    // Initialize particles
-    particlesRef.current = Array.from({ length: PARTICLE_COUNT }, () => 
-      createParticle(w, h)
-    )
 
     const draw = () => {
       ctx.clearRect(0, 0, w, h)
@@ -67,14 +71,16 @@ export default function ParticleField() {
       clearTimeout(resizeTimeout)
       resizeTimeout = setTimeout(() => {
         resize()
-        // Recreate particles on resize
-        particlesRef.current = Array.from({ length: PARTICLE_COUNT }, () => 
+        particlesRef.current = Array.from({ length: getParticleCount() }, () => 
           createParticle(w, h)
         )
       }, 100)
     }
 
     resize()
+    particlesRef.current = Array.from({ length: getParticleCount() }, () => 
+      createParticle(w, h)
+    )
     draw()
     window.addEventListener('resize', handleResize, { passive: true })
 

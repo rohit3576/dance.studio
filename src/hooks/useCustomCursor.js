@@ -9,6 +9,12 @@ export function useCustomCursor() {
   const followerPosRef = useRef({ x: 0, y: 0 })
 
   useEffect(() => {
+    const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches
+    if (!finePointer) {
+      document.body.classList.add('native-cursor')
+      return () => document.body.classList.remove('native-cursor')
+    }
+
     cursorRef.current = document.querySelector('.cursor')
     followerRef.current = document.querySelector('.cursor-follower')
 
@@ -40,6 +46,7 @@ export function useCustomCursor() {
 
     // Handle hover states for interactive elements
     const handleMouseEnter = (e) => {
+      if (!(e.target instanceof Element)) return
       const target = e.target.closest('a, button, [data-cursor-hover]')
       if (target && followerRef.current) {
         followerRef.current.style.width = '60px'
@@ -50,6 +57,7 @@ export function useCustomCursor() {
     }
 
     const handleMouseLeave = (e) => {
+      if (!(e.target instanceof Element)) return
       const target = e.target.closest('a, button, [data-cursor-hover]')
       if (target && followerRef.current) {
         followerRef.current.style.width = '40px'

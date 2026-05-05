@@ -50,7 +50,7 @@ function WordReveal({ text, color, sub, index }) {
   return (
     <motion.div
       ref={ref}
-      className="relative flex flex-col items-center py-16 md:py-24 border-b border-white/5 last:border-0 group"
+      className="relative flex flex-col items-center py-12 md:py-24 border-b border-white/5 last:border-0 group"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       viewport={{ once: true, margin: '-5%' }}
@@ -65,7 +65,7 @@ function WordReveal({ text, color, sub, index }) {
       <div className="overflow-hidden">
         <h2
           ref={wordRef}
-          className="font-display text-[clamp(5rem,18vw,18rem)] leading-none tracking-tight"
+          className="font-display text-[clamp(3.35rem,18vw,18rem)] leading-none tracking-[0.01em]"
           style={{ color, willChange: 'transform' }}
         >
           {text}
@@ -146,6 +146,7 @@ export default function ScenePerformanceDrop() {
   return (
     <section
       ref={sectionRef}
+      id="about"
       className="scene-section relative w-full overflow-hidden"
       style={{ background: '#020205' }}
     >
@@ -190,7 +191,7 @@ export default function ScenePerformanceDrop() {
         </div>
       </div>
 
-      <div ref={contentRef} className="relative z-[10] max-w-6xl mx-auto px-6 py-24">
+      <div ref={contentRef} className="relative z-[10] max-w-6xl mx-auto px-5 py-20 sm:px-6 md:py-24">
         {/* Section label */}
         <motion.div
           className="flex items-center gap-4 mb-16"
@@ -200,7 +201,7 @@ export default function ScenePerformanceDrop() {
           transition={{ duration: 0.8 }}
         >
           <span className="w-16 h-px bg-[#ff2d9b]/40" />
-          <span className="font-mono text-[10px] text-[#ff2d9b] tracking-[0.4em] uppercase">Scene 03 — Performance Drop</span>
+          <span className="font-mono text-[10px] text-[#ff2d9b] tracking-[0.28em] sm:tracking-[0.4em] uppercase">Scene 03 - About</span>
         </motion.div>
 
         {/* Word reveals */}
@@ -221,11 +222,11 @@ export default function ScenePerformanceDrop() {
           <div className="absolute -top-8 left-1/2 -translate-x-1/2 text-8xl text-[#b347ff]/10 font-display leading-none">
             "
           </div>
-          <blockquote className="font-body text-2xl md:text-3xl text-white/60 italic max-w-2xl mx-auto leading-relaxed">
-            Dance is the hidden language of the soul — it speaks where words cannot reach.
+          <blockquote className="font-body text-xl md:text-3xl text-white/60 italic max-w-2xl mx-auto leading-relaxed">
+            Dance is the hidden language of the soul - it speaks where words cannot reach.
           </blockquote>
           <div className="mt-6 font-mono text-xs text-white/25 tracking-[0.3em] uppercase">
-            — Martha Graham
+            - Martha Graham
           </div>
         </motion.div>
       </div>

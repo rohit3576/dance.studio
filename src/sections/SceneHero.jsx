@@ -48,8 +48,7 @@ export default function SceneHero() {
 
     // Zoom in on scroll with smooth transition
     tl.to(bg, {
-      scale: 1.3,
-      filter: 'blur(8px)',
+      scale: 1.18,
       ease: 'none',
     }, 0)
 
@@ -76,8 +75,8 @@ export default function SceneHero() {
   return (
     <section
       ref={sectionRef}
-      id="about"
-      className="scene-section relative w-full h-screen flex items-center justify-center overflow-hidden"
+      id="home"
+      className="scene-section relative flex min-h-[100svh] w-full items-center justify-center overflow-hidden pt-20"
     >
       {/* Background - gradient + dancer shapes */}
       <div 
@@ -111,7 +110,7 @@ export default function SceneHero() {
             transition: 'transform 0.3s ease-out',
           }}
         >
-          <div className="relative w-[600px] h-[700px] opacity-15 animate-float">
+          <div className="relative h-[420px] w-[360px] opacity-15 animate-float sm:h-[560px] sm:w-[500px] lg:h-[700px] lg:w-[600px]">
             <DancerLeap color="#b347ff" className="w-full h-full" />
           </div>
         </div>
@@ -173,23 +172,32 @@ export default function SceneHero() {
           initial={{ opacity: 0, letterSpacing: '0.5em' }}
           animate={{ opacity: 1, letterSpacing: '0.4em' }}
           transition={{ duration: 1.2, delay: 0.2 }}
-          className="font-mono text-xs text-[#b347ff] uppercase tracking-[0.4em] mb-8 flex items-center justify-center gap-4"
+          className="font-mono text-[10px] text-[#b347ff] uppercase tracking-[0.24em] sm:tracking-[0.4em] mb-6 sm:mb-8 flex items-center justify-center gap-3 sm:gap-4"
         >
-          <span className="w-12 h-px bg-gradient-to-r from-transparent to-[#b347ff]" />
-          CIPHER DANCE STUDIO — EST. 2019
-          <span className="w-12 h-px bg-gradient-to-l from-transparent to-[#b347ff]" />
+          <span className="hidden h-px w-10 bg-gradient-to-r from-transparent to-[#b347ff] sm:block" />
+          CIPHER DANCE STUDIO - EST. 2019
+          <span className="hidden h-px w-10 bg-gradient-to-l from-transparent to-[#b347ff] sm:block" />
         </motion.div>
 
         {/* Main title with char reveal */}
-        <h1 className="font-display text-[clamp(4rem,12vw,11rem)] leading-none tracking-[0.05em] overflow-hidden">
-          {HERO_TITLE.split('').map((char, i) => (
-            <span key={i} className="inline-block overflow-hidden">
-              <HeroChar
-                char={char}
-                delay={0.4 + i * 0.04}
-              />
-            </span>
-          ))}
+        <h1 className="font-display text-[clamp(2.9rem,12vw,11rem)] leading-[0.9] tracking-[0.03em] sm:tracking-[0.05em] overflow-hidden">
+          {HERO_TITLE.split(' ').map((word, wordIndex) => {
+            const previousChars = HERO_TITLE.split(' ').slice(0, wordIndex).join('').length + wordIndex
+
+            return (
+              <span key={word} className="inline-block whitespace-nowrap">
+                {word.split('').map((char, i) => (
+                  <span key={`${word}-${char}-${i}`} className="inline-block overflow-hidden">
+                    <HeroChar
+                      char={char}
+                      delay={0.4 + (previousChars + i) * 0.04}
+                    />
+                  </span>
+                ))}
+                {wordIndex < HERO_TITLE.split(' ').length - 1 && <span className="inline-block">&nbsp;</span>}
+              </span>
+            )
+          })}
         </h1>
 
         {/* Gradient accent line */}
@@ -209,7 +217,7 @@ export default function SceneHero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1.5 }}
-          className="font-body text-lg text-white/50 tracking-[0.2em] uppercase"
+          className="font-body text-sm sm:text-lg text-white/55 tracking-[0.16em] sm:tracking-[0.2em] uppercase"
         >
           {HERO_SUB}
         </motion.p>
@@ -219,7 +227,7 @@ export default function SceneHero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 2.2, duration: 1 }}
-          className="absolute bottom-[-180px] left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
+          className="absolute bottom-[-88px] left-1/2 hidden -translate-x-1/2 flex-col items-center gap-3 sm:flex md:bottom-[-150px]"
         >
           <span className="font-mono text-[10px] text-white/30 tracking-[0.3em] uppercase">Scroll</span>
           <div className="relative w-px h-16 bg-white/10">
@@ -251,7 +259,7 @@ export default function SceneHero() {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 2, duration: 0.8 }}
-        className="absolute bottom-12 left-1/2 -translate-x-1/2 z-10 flex items-center gap-12"
+        className="absolute bottom-8 left-1/2 z-10 grid w-[min(92vw,520px)] -translate-x-1/2 grid-cols-3 gap-3 sm:bottom-12 sm:flex sm:w-auto sm:items-center sm:gap-12"
       >
         {[
           { num: '12+', label: 'Dance Styles' },
@@ -259,8 +267,8 @@ export default function SceneHero() {
           { num: '50+', label: 'Champions' },
         ].map(({ num, label }) => (
           <div key={label} className="text-center">
-            <div className="font-display text-3xl gradient-text-purple">{num}</div>
-            <div className="font-mono text-[10px] text-white/30 tracking-[0.2em] uppercase mt-1">{label}</div>
+            <div className="font-display text-2xl sm:text-3xl gradient-text-purple">{num}</div>
+            <div className="font-mono text-[8px] text-white/35 tracking-[0.12em] sm:text-[10px] sm:tracking-[0.2em] uppercase mt-1">{label}</div>
           </div>
         ))}
       </motion.div>

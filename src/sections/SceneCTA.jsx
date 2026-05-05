@@ -1,66 +1,25 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
-import { gsap, ScrollTrigger } from '../animations/gsapConfig'
-import { DancerLeap, DancerSpin, DancerPower, DancerArabesque } from '../components/DancerSVG'
+import { gsap } from '../animations/gsapConfig'
+import { DancerLeap, DancerSpin, DancerArabesque } from '../components/DancerSVG'
 import { useMouseParallax } from '../hooks/useMouseParallax'
 
 function GlowButton({ children, primary }) {
-  const [hover, setHover] = useState(false)
-
   return (
     <motion.button
-      className="relative px-10 py-5 font-display text-xl tracking-[0.2em] overflow-hidden group"
+      className="relative min-h-14 w-full overflow-hidden px-6 py-4 font-display text-base tracking-[0.14em] sm:w-auto sm:px-9 sm:text-lg"
       style={{
-        background: primary
-          ? 'linear-gradient(135deg, #b347ff 0%, #00d4ff 100%)'
-          : 'transparent',
-        border: primary ? 'none' : '1px solid rgba(179,71,255,0.5)',
+        background: primary ? 'linear-gradient(135deg, #b347ff 0%, #00d4ff 100%)' : 'transparent',
+        border: primary ? 'none' : '1px solid rgba(179,71,255,0.55)',
         color: '#fff',
+        boxShadow: primary ? '0 0 34px rgba(179,71,255,0.25)' : '0 0 24px rgba(179,71,255,0.08)',
       }}
-      whileHover={{ scale: 1.05 }}
+      whileHover={{ scale: 1.035 }}
       whileTap={{ scale: 0.97 }}
-      onHoverStart={() => setHover(true)}
-      onHoverEnd={() => setHover(false)}
-      transition={{ duration: 0.3 }}
+      transition={{ duration: 0.25 }}
       data-cursor-hover
     >
-      {primary && (
-        <>
-          {/* Glow behind */}
-          <motion.div
-            className="absolute inset-0 -z-10"
-            animate={{ opacity: hover ? 1 : 0.4 }}
-            transition={{ duration: 0.3 }}
-            style={{
-              background: 'linear-gradient(135deg, #b347ff, #00d4ff)',
-              filter: 'blur(20px)',
-              transform: 'scale(1.5)',
-            }}
-          />
-          {/* Shimmer overlay */}
-          <div className="absolute inset-0 overflow-hidden">
-            <motion.div
-              className="absolute inset-0"
-              animate={{ x: hover ? '100%' : '-100%' }}
-              transition={{ duration: 0.6, ease: 'easeInOut' }}
-              style={{
-                background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)',
-                skewX: '-15deg',
-              }}
-            />
-          </div>
-        </>
-      )}
-
-      {!primary && (
-        <motion.div
-          className="absolute inset-0"
-          animate={{ opacity: hover ? 1 : 0 }}
-          transition={{ duration: 0.3 }}
-          style={{ background: 'rgba(179,71,255,0.08)' }}
-        />
-      )}
-
+      <span className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
       <span className="relative z-10">{children}</span>
     </motion.button>
   )
@@ -69,15 +28,15 @@ function GlowButton({ children, primary }) {
 const PLANS = [
   {
     name: 'DROP-IN',
-    price: '₹799',
+    price: 'Rs. 799',
     period: 'per class',
     color: '#b347ff',
-    features: ['Any single class', 'Access to studio', 'Beginner friendly'],
+    features: ['Any single class', 'Studio access', 'Beginner friendly'],
     cta: 'Book a Class',
   },
   {
     name: 'MONTHLY',
-    price: '₹3,999',
+    price: 'Rs. 3,999',
     period: 'per month',
     color: '#00d4ff',
     features: ['Unlimited classes', 'Priority booking', 'Progress tracking', 'Community access'],
@@ -86,10 +45,10 @@ const PLANS = [
   },
   {
     name: 'ELITE',
-    price: '₹8,999',
+    price: 'Rs. 8,999',
     period: 'per month',
     color: '#ff2d9b',
-    features: ['All Monthly features', '1-on-1 coaching', 'Showcase priority', 'Gear discount 20%'],
+    features: ['Everything in Monthly', '1-on-1 coaching', 'Showcase priority', 'Gear discount'],
     cta: 'Go Elite',
   },
 ]
@@ -105,34 +64,35 @@ export default function SceneCTA() {
     if (!section) return
 
     const ctx = gsap.context(() => {
-      // Title reveal
-      gsap.fromTo(titleRef.current,
-        { scale: 0.85, opacity: 0 },
+      gsap.fromTo(
+        titleRef.current,
+        { scale: 0.9, opacity: 0 },
         {
           scale: 1,
           opacity: 1,
+          duration: 0.9,
           ease: 'power3.out',
           scrollTrigger: {
             trigger: titleRef.current,
-            start: 'top 80%',
+            start: 'top 82%',
             toggleActions: 'play none none reverse',
-            anticipatePin: 1,
-          }
+          },
         }
       )
 
-      // Content reveal
-      gsap.fromTo(contentRef.current,
-        { opacity: 0, y: 40 },
+      gsap.fromTo(
+        contentRef.current,
+        { opacity: 0, y: 36 },
         {
-          opacity: 1, y: 0,
+          opacity: 1,
+          y: 0,
+          duration: 0.9,
           ease: 'power3.out',
           scrollTrigger: {
             trigger: contentRef.current,
-            start: 'top 75%',
+            start: 'top 78%',
             toggleActions: 'play none none reverse',
-            anticipatePin: 1,
-          }
+          },
         }
       )
     }, section)
@@ -143,193 +103,154 @@ export default function SceneCTA() {
   return (
     <section
       ref={sectionRef}
-      id="join"
-      className="scene-section relative w-full py-32 overflow-hidden"
+      id="contact"
+      className="scene-section relative w-full overflow-hidden py-20 md:py-28"
       style={{ background: '#020205' }}
     >
-      {/* Background massive glow */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] rounded-full animate-glow-pulse"
+        <div
+          className="absolute left-1/2 top-1/2 h-[620px] w-[620px] -translate-x-1/2 -translate-y-1/2 rounded-full md:h-[900px] md:w-[900px]"
           style={{
             background: 'radial-gradient(circle, rgba(179,71,255,0.12) 0%, rgba(0,212,255,0.06) 40%, transparent 70%)',
-            filter: 'blur(60px)',
+            filter: 'blur(58px)',
           }}
         />
       </div>
 
-      {/* Corner dancers with mouse parallax */}
-      <div 
-        className="absolute bottom-0 left-0 w-48 h-60 opacity-15 animate-float pointer-events-none"
-        style={{
-          transform: `translate(${mouseParallax.x * 20}px, ${mouseParallax.y * 10}px)`,
-          transition: 'transform 0.4s ease-out',
-        }}
+      <div
+        className="absolute bottom-0 left-0 h-48 w-36 opacity-10 animate-float pointer-events-none sm:h-60 sm:w-48"
+        style={{ transform: `translate3d(${mouseParallax.x * 20}px, ${mouseParallax.y * 10}px, 0)` }}
       >
-        <DancerLeap color="#b347ff" className="w-full h-full" />
+        <DancerLeap color="#b347ff" className="h-full w-full" />
       </div>
-      <div 
-        className="absolute bottom-0 right-0 w-48 h-60 opacity-15 animate-float-2 pointer-events-none"
-        style={{ 
-          transform: `scaleX(-1) translate(${mouseParallax.x * -15}px, ${mouseParallax.y * 15}px)`,
-          transition: 'transform 0.45s ease-out',
-        }}
+      <div
+        className="absolute bottom-0 right-0 h-48 w-36 opacity-10 animate-float-2 pointer-events-none sm:h-60 sm:w-48"
+        style={{ transform: `scaleX(-1) translate3d(${mouseParallax.x * -15}px, ${mouseParallax.y * 15}px, 0)` }}
       >
-        <DancerSpin color="#00d4ff" className="w-full h-full" />
+        <DancerSpin color="#00d4ff" className="h-full w-full" />
       </div>
-      <div 
-        className="absolute top-8 left-[10%] w-32 h-40 opacity-8 animate-float-3 pointer-events-none"
-        style={{
-          transform: `translate(${mouseParallax.x * 25}px, ${mouseParallax.y * 20}px)`,
-          transition: 'transform 0.35s ease-out',
-        }}
+      <div
+        className="absolute left-[10%] top-8 h-36 w-28 opacity-8 animate-float-3 pointer-events-none sm:h-40 sm:w-32"
+        style={{ transform: `translate3d(${mouseParallax.x * 25}px, ${mouseParallax.y * 20}px, 0)` }}
       >
-        <DancerArabesque color="#ff2d9b" className="w-full h-full" />
+        <DancerArabesque color="#ff2d9b" className="h-full w-full" />
       </div>
 
-      <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
-        {/* Section label */}
+      <div className="relative z-10 mx-auto max-w-6xl px-5 text-center sm:px-6">
         <motion.div
-          className="flex items-center justify-center gap-4 mb-8"
+          className="mb-8 flex items-center justify-center gap-4"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
         >
-          <span className="w-16 h-px bg-[#b347ff]/40" />
-          <span className="font-mono text-[10px] text-[#b347ff] tracking-[0.4em] uppercase">Scene 05 — Join</span>
-          <span className="w-16 h-px bg-[#b347ff]/40" />
+          <span className="hidden h-px w-12 bg-[#b347ff]/40 sm:block" />
+          <span className="font-mono text-[10px] uppercase tracking-[0.28em] text-[#b347ff] sm:tracking-[0.4em]">Scene 05 - Contact</span>
+          <span className="hidden h-px w-12 bg-[#b347ff]/40 sm:block" />
         </motion.div>
 
-        {/* Main CTA title */}
-        <div ref={titleRef} className="mb-6">
-          <h2 className="font-display text-[clamp(4rem,14vw,14rem)] leading-none tracking-tight">
+        <div ref={titleRef} className="mb-6 will-change-transform">
+          <h2 className="font-display text-[clamp(3.35rem,14vw,14rem)] leading-[0.9] tracking-[0.01em]">
             <span className="block gradient-text-purple">JOIN THE</span>
             <span className="block text-white">MOVEMENT</span>
           </h2>
         </div>
 
         <motion.p
-          className="font-body text-lg text-white/40 max-w-xl mx-auto mb-16 leading-relaxed"
-          initial={{ opacity: 0, y: 20 }}
+          className="mx-auto mb-12 max-w-xl font-body text-base leading-relaxed text-white/45 sm:mb-16 sm:text-lg"
+          initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          transition={{ duration: 0.75, delay: 0.15 }}
         >
-          Your first class is on us. Walk in a beginner.
-          Walk out transformed. The floor is waiting — are you ready?
+          Your first class is on us. Walk in curious, walk out moving differently. The floor is waiting.
         </motion.p>
 
-        {/* Pricing cards */}
-        <div ref={contentRef} className="grid md:grid-cols-3 gap-6 mb-16">
+        <div ref={contentRef} className="mb-12 grid gap-4 md:mb-16 md:grid-cols-3 md:gap-6">
           {PLANS.map((plan, i) => (
             <motion.div
               key={plan.name}
-              className={`relative p-6 text-left group ${plan.featured ? 'scale-105' : ''}`}
+              className="relative p-5 text-left md:p-6"
               style={{
-                border: `1px solid ${plan.color}${plan.featured ? '80' : '30'}`,
-                background: plan.featured
-                  ? `linear-gradient(135deg, ${plan.color}10 0%, transparent 100%)`
-                  : 'rgba(255,255,255,0.02)',
+                border: `1px solid ${plan.color}${plan.featured ? '80' : '35'}`,
+                background: plan.featured ? `linear-gradient(135deg, ${plan.color}12 0%, rgba(255,255,255,0.02) 100%)` : 'rgba(255,255,255,0.02)',
+                boxShadow: plan.featured ? `0 0 42px ${plan.color}18` : 'none',
               }}
-              initial={{ opacity: 0, y: 40 }}
+              initial={{ opacity: 0, y: 28 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.7, delay: i * 0.15, ease: [0.16, 1, 0.3, 1] }}
-              whileHover={{ y: -6 }}
+              transition={{ duration: 0.62, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
+              whileHover={{ y: -5 }}
             >
               {plan.featured && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 text-[10px] font-mono tracking-[0.2em] uppercase"
-                  style={{ background: plan.color, color: '#000' }}
-                >
-                  POPULAR
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 font-mono text-[10px] uppercase tracking-[0.2em]" style={{ background: plan.color, color: '#020205' }}>
+                  Popular
                 </div>
               )}
-
-              <div className="font-mono text-xs tracking-[0.3em] mb-4" style={{ color: plan.color }}>
-                {plan.name}
-              </div>
-              <div className="font-display text-5xl mb-1" style={{ color: plan.color }}>
-                {plan.price}
-              </div>
-              <div className="font-mono text-[10px] text-white/25 tracking-[0.2em] uppercase mb-6">
-                {plan.period}
-              </div>
-
-              <ul className="space-y-2 mb-8">
-                {plan.features.map(f => (
-                  <li key={f} className="flex items-center gap-2 font-body text-sm text-white/40 group-hover:text-white/60 transition-colors duration-300">
-                    <span style={{ color: plan.color }}>▸</span>
-                    {f}
+              <div className="mb-4 font-mono text-xs tracking-[0.3em]" style={{ color: plan.color }}>{plan.name}</div>
+              <div className="mb-1 font-display text-4xl sm:text-5xl" style={{ color: plan.color }}>{plan.price}</div>
+              <div className="mb-6 font-mono text-[10px] uppercase tracking-[0.2em] text-white/30">{plan.period}</div>
+              <ul className="mb-8 space-y-2">
+                {plan.features.map((feature) => (
+                  <li key={feature} className="flex items-center gap-2 font-body text-sm text-white/45">
+                    <span style={{ color: plan.color }}>+</span>
+                    {feature}
                   </li>
                 ))}
               </ul>
-
-              <motion.button
-                className="w-full py-3 font-mono text-xs tracking-[0.2em] uppercase transition-all duration-300"
-                style={{
-                  border: `1px solid ${plan.color}60`,
-                  color: plan.color,
-                }}
-                whileHover={{
-                  backgroundColor: `${plan.color}20`,
-                  borderColor: plan.color,
-                }}
-                whileTap={{ scale: 0.97 }}
+              <button
+                className="min-h-11 w-full font-mono text-xs uppercase tracking-[0.18em] transition-colors duration-300"
+                style={{ border: `1px solid ${plan.color}60`, color: plan.color }}
                 data-cursor-hover
               >
                 {plan.cta}
-              </motion.button>
+              </button>
             </motion.div>
           ))}
         </div>
 
-        {/* Main CTA buttons */}
         <motion.div
-          className="flex flex-col sm:flex-row items-center justify-center gap-4"
-          initial={{ opacity: 0, y: 30 }}
+          className="flex flex-col items-center justify-center gap-4 sm:flex-row"
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.4 }}
+          transition={{ duration: 0.75, delay: 0.25 }}
         >
           <GlowButton primary>START YOUR JOURNEY</GlowButton>
           <GlowButton>BOOK A FREE TRIAL</GlowButton>
         </motion.div>
 
-        {/* Contact info */}
         <motion.div
-          className="mt-16 flex flex-col md:flex-row items-center justify-center gap-8 text-white/25"
+          className="mt-14 flex flex-col items-center justify-center gap-5 text-white/30 md:flex-row md:gap-8"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.6 }}
+          transition={{ duration: 0.75, delay: 0.35 }}
         >
-          <a href="tel:+919876543210" className="font-mono text-xs tracking-[0.2em] hover:text-[#b347ff] transition-colors duration-300" data-cursor-hover>
+          <a href="tel:+919876543210" className="font-mono text-xs tracking-[0.18em] transition-colors duration-300 hover:text-[#b347ff]" data-cursor-hover>
             +91 98765 43210
           </a>
-          <span className="w-px h-4 bg-white/10 hidden md:block" />
-          <a href="mailto:dance@cipher.studio" className="font-mono text-xs tracking-[0.2em] hover:text-[#b347ff] transition-colors duration-300" data-cursor-hover>
+          <span className="hidden h-4 w-px bg-white/10 md:block" />
+          <a href="mailto:dance@cipher.studio" className="font-mono text-xs tracking-[0.18em] transition-colors duration-300 hover:text-[#b347ff]" data-cursor-hover>
             dance@cipher.studio
           </a>
-          <span className="w-px h-4 bg-white/10 hidden md:block" />
-          <span className="font-mono text-xs tracking-[0.2em]">
-            Bandra West, Mumbai
-          </span>
+          <span className="hidden h-4 w-px bg-white/10 md:block" />
+          <span className="font-mono text-xs tracking-[0.18em]">Bandra West, Mumbai</span>
         </motion.div>
       </div>
 
-      {/* Footer */}
-      <div className="relative z-10 mt-24 border-t border-white/5 pt-8 max-w-6xl mx-auto px-6">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+      <div className="relative z-10 mx-auto mt-20 max-w-6xl border-t border-white/5 px-5 pt-8 sm:px-6 md:mt-24">
+        <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
           <div className="flex items-center gap-3">
-            <div className="w-6 h-6 rounded-full bg-gradient-to-br from-[#b347ff] to-[#00d4ff]" />
+            <div className="h-6 w-6 rounded-full bg-gradient-to-br from-[#b347ff] to-[#00d4ff]" />
             <span className="font-display text-lg tracking-[0.2em]">CIPHER</span>
           </div>
-          <p className="font-mono text-[10px] text-white/20 tracking-[0.2em]">
-            © 2025 CIPHER DANCE STUDIO. ALL RIGHTS RESERVED.
+          <p className="text-center font-mono text-[10px] tracking-[0.18em] text-white/25">
+            2026 CIPHER DANCE STUDIO. ALL RIGHTS RESERVED.
           </p>
           <div className="flex items-center gap-6">
-            {['IG', 'TW', 'YT', 'TK'].map(s => (
-              <a key={s} href="#" className="font-mono text-[10px] text-white/25 hover:text-[#b347ff] tracking-[0.2em] transition-colors duration-300" data-cursor-hover>
-                {s}
+            {['IG', 'TW', 'YT', 'TK'].map((social) => (
+              <a key={social} href="#home" className="font-mono text-[10px] tracking-[0.2em] text-white/30 transition-colors duration-300 hover:text-[#b347ff]" data-cursor-hover>
+                {social}
               </a>
             ))}
           </div>

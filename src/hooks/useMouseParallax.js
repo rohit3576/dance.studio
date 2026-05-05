@@ -6,23 +6,35 @@ export function useMouseParallax(intensity = 0.02) {
   const mouseRef = useRef({ x: 0, y: 0 })
 
   useEffect(() => {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches
+    const roomyViewport = window.matchMedia('(min-width: 768px)').matches
+
+    if (reduceMotion || !finePointer || !roomyViewport) {
+      setMousePosition({ x: 0, y: 0 })
+      return
+    }
+
     const handleMouseMove = (e) => {
       mouseRef.current = {
         x: (e.clientX / window.innerWidth - 0.5) * 2,
         y: (e.clientY / window.innerHeight - 0.5) * 2,
       }
+
+      if (rafRef.current) return
+
+      rafRef.current = requestAnimationFrame(animate)
     }
 
     const animate = () => {
+      rafRef.current = null
       setMousePosition({
         x: mouseRef.current.x * intensity,
         y: mouseRef.current.y * intensity,
       })
-      rafRef.current = requestAnimationFrame(animate)
     }
 
     window.addEventListener('mousemove', handleMouseMove, { passive: true })
-    rafRef.current = requestAnimationFrame(animate)
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove)
@@ -41,6 +53,9 @@ export function useMouseGlow(intensity = 0.15) {
   const mouseRef = useRef({ x: 0, y: 0 })
 
   useEffect(() => {
+    const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches
+    if (!finePointer) return
+
     const handleMouseMove = (e) => {
       mouseRef.current = {
         x: e.clientX,

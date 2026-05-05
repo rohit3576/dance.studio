@@ -34,6 +34,15 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+body.menu-open {
+  overflow: hidden;
+}
+
+body.native-cursor,
+body.native-cursor * {
+  cursor: auto;
+}
+
 /* Performance: GPU acceleration for all animated elements */
 .will-change-transform {
   will-change: transform;
@@ -86,6 +95,11 @@ body {
   will-change: transform;
 }
 
+.native-cursor .cursor,
+.native-cursor .cursor-follower {
+  display: none;
+}
+
 /* Noise overlay - cinematic grain */
 body::before {
   content: '';
@@ -111,6 +125,8 @@ body::after {
 .scene-section {
   position: relative;
   overflow: hidden;
+  content-visibility: auto;
+  contain-intrinsic-size: 900px;
 }
 
 /* Glow text utility */
@@ -295,4 +311,56 @@ body::after {
     0 0 20px currentColor,
     0 0 40px currentColor,
     0 0 80px currentColor;
+}
+
+@media (max-width: 767px) {
+  body {
+    cursor: auto;
+  }
+
+  body::before {
+    opacity: 0.18;
+  }
+
+  body::after {
+    background: radial-gradient(ellipse at center, transparent 55%, rgba(2, 2, 5, 0.28) 100%);
+  }
+
+  .cursor,
+  .cursor-follower {
+    display: none;
+  }
+
+  .animate-float,
+  .animate-float-2,
+  .animate-float-3 {
+    animation-duration: 12s;
+  }
+
+  .animate-glow-pulse,
+  .animate-pulse-glow,
+  .animate-border-pulse {
+    animation-duration: 5s;
+  }
+
+  .glow-purple,
+  .glow-blue,
+  .glow-pink {
+    text-shadow: 0 0 18px currentColor;
+  }
+
+  .scene-section {
+    contain-intrinsic-size: 760px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }
