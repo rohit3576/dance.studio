@@ -171,20 +171,22 @@ export default function SceneStudioShowcase() {
               Our flagship studio is engineered for high-output training, clean technique, and camera-ready rehearsals.
             </p>
 
-            <div className="space-y-4">
+            <div className="space-y-6 mt-12">
               {STUDIO_FEATURES.map((feat, i) => (
                 <motion.div
                   key={feat.title}
-                  className="flex items-start gap-4"
+                  className="group flex items-start gap-6 p-4 rounded-xl transition-all duration-500 hover:bg-white/[0.03]"
                   initial={{ opacity: 0, x: -18 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.55, delay: 0.08 * i }}
+                  transition={{ duration: 0.8, delay: 0.1 * i }}
                 >
-                  <span className="mt-0.5 w-5 flex-shrink-0 text-xl" style={{ color: feat.color }}>{feat.icon}</span>
+                  <div className="mt-1 w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-full border border-white/10 group-hover:border-white/30 transition-colors duration-500">
+                    <span className="text-xl" style={{ color: feat.color }}>{feat.icon}</span>
+                  </div>
                   <div>
-                    <div className="mb-1 font-mono text-xs tracking-[0.2em]" style={{ color: feat.color }}>{feat.title}</div>
-                    <p className="font-body text-sm leading-relaxed text-white/40">{feat.desc}</p>
+                    <div className="mb-2 font-mono text-[10px] tracking-[0.3em] uppercase transition-colors duration-500 group-hover:text-white" style={{ color: feat.color }}>{feat.title}</div>
+                    <p className="font-body text-sm leading-relaxed text-white/40 group-hover:text-white/60 transition-colors duration-500">{feat.desc}</p>
                   </div>
                 </motion.div>
               ))}

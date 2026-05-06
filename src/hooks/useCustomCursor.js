@@ -26,15 +26,14 @@ export function useCustomCursor() {
 
     const animate = () => {
       const { x: mouseX, y: mouseY } = mouseRef.current
-      const { x: cursorX, y: cursorY } = cursorPosRef.current
       const { x: followerX, y: followerY } = followerPosRef.current
 
       // Cursor follows instantly
-      cursorPosRef.current = { x: mouseX - 6, y: mouseY - 6 }
+      cursorPosRef.current = { x: mouseX - 4, y: mouseY - 4 }
       cursorRef.current.style.transform = `translate3d(${cursorPosRef.current.x}px, ${cursorPosRef.current.y}px, 0)`
 
       // Follower follows with lerp for smooth delay
-      const lerpFactor = 0.1
+      const lerpFactor = 0.08
       followerPosRef.current = {
         x: followerX + (mouseX - followerX) * lerpFactor,
         y: followerY + (mouseY - followerY) * lerpFactor,
@@ -48,22 +47,16 @@ export function useCustomCursor() {
     const handleMouseEnter = (e) => {
       if (!(e.target instanceof Element)) return
       const target = e.target.closest('a, button, [data-cursor-hover]')
-      if (target && followerRef.current) {
-        followerRef.current.style.width = '60px'
-        followerRef.current.style.height = '60px'
-        followerRef.current.style.borderColor = 'rgba(179, 71, 255, 0.8)'
-        followerRef.current.style.backgroundColor = 'rgba(179, 71, 255, 0.1)'
+      if (target) {
+        document.body.classList.add('cursor-hover')
       }
     }
 
     const handleMouseLeave = (e) => {
       if (!(e.target instanceof Element)) return
       const target = e.target.closest('a, button, [data-cursor-hover]')
-      if (target && followerRef.current) {
-        followerRef.current.style.width = '40px'
-        followerRef.current.style.height = '40px'
-        followerRef.current.style.borderColor = 'rgba(179, 71, 255, 0.4)'
-        followerRef.current.style.backgroundColor = 'transparent'
+      if (target) {
+        document.body.classList.remove('cursor-hover')
       }
     }
 

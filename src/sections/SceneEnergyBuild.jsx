@@ -180,7 +180,7 @@ export default function SceneEnergyBuild() {
           </p>
 
           {/* Style cards */}
-          <div className="grid grid-cols-2 gap-3 mt-10 sm:mt-16 md:grid-cols-4">
+          <div className="grid grid-cols-2 gap-4 mt-12 sm:mt-20 md:grid-cols-4 w-full">
             {[
               { name: 'BREAKDANCE', color: '#b347ff', delay: 0 },
               { name: 'WAACKING', color: '#00d4ff', delay: 0.1 },
@@ -195,19 +195,19 @@ export default function SceneEnergyBuild() {
                 key={name}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
                 viewport={{ once: true }}
-                whileHover={{ scale: 1.05, y: -4 }}
-                className="relative group neon-border min-h-16 p-4 text-center cursor-pointer overflow-hidden"
-                style={{ borderColor: `${color}33` }}
+                whileHover={{ y: -8, scale: 1.02 }}
+                className="group relative"
               >
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                  style={{ background: `radial-gradient(circle at center, ${color}11 0%, transparent 70%)` }}
-                />
-                <div className="w-1 h-1 rounded-full mx-auto mb-3 animate-pulse-glow" style={{ background: color }} />
-                <span className="font-display text-sm tracking-[0.15em]" style={{ color }}>
-                  {name}
-                </span>
+                <div className="glass-panel p-6 sm:p-8 text-center transition-all duration-500 group-hover:border-[#b347ff]/40 group-hover:bg-white/[0.05]">
+                  <div 
+                    className="w-1.5 h-1.5 rounded-full mx-auto mb-4 transition-all duration-500 group-hover:scale-150"
+                    style={{ background: color, boxShadow: `0 0 15px ${color}` }}
+                  />
+                  <div className="font-display text-lg sm:text-xl tracking-[0.1em] text-white/80 transition-all duration-500 group-hover:text-white group-hover:tracking-[0.15em]">{name}</div>
+                  <div className="mt-3 h-px w-0 bg-gradient-to-r from-transparent via-white/20 to-transparent mx-auto transition-all duration-700 group-hover:w-full" />
+                </div>
               </motion.div>
             ))}
           </div>

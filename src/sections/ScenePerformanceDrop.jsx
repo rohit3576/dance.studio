@@ -23,24 +23,24 @@ function WordReveal({ text, color, sub, index }) {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline()
 
-      // Word reveal
+      // Word reveal with blur and scale
       tl.fromTo(wordRef.current,
-        { y: '110%' },
-        { y: 0, duration: 0.9, ease: 'power3.out', delay: index * 0.1 }
+        { y: '110%', filter: 'blur(20px)', scale: 1.1 },
+        { y: 0, filter: 'blur(0px)', scale: 1, duration: 1.2, ease: 'expo.out', delay: index * 0.15 }
       )
 
       // Sub text fade in
       tl.fromTo(subRef.current,
-        { opacity: 0, y: 10 },
-        { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' },
-        '-=0.3'
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' },
+        '-=0.6'
       )
 
       // Line expand
       tl.fromTo(lineRef.current,
         { width: 0, opacity: 0 },
-        { width: '100%', opacity: 0.6, duration: 1, ease: 'power2.inOut' },
-        '-=0.4'
+        { width: '100%', opacity: 0.4, duration: 1.5, ease: 'expo.inOut' },
+        '-=0.8'
       )
     }, ref)
 
@@ -50,32 +50,34 @@ function WordReveal({ text, color, sub, index }) {
   return (
     <motion.div
       ref={ref}
-      className="relative flex flex-col items-center py-12 md:py-24 border-b border-white/5 last:border-0 group"
+      className="relative flex flex-col items-center py-20 md:py-32 border-b border-white/5 last:border-0 group overflow-hidden"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       viewport={{ once: true, margin: '-5%' }}
-      transition={{ duration: 0.4, delay: 0.1 }}
+      transition={{ duration: 0.8 }}
     >
       {/* Number */}
-      <div className="font-mono text-[10px] tracking-[0.4em] text-white/20 mb-4">
-        0{index + 1}
+      <div className="font-mono text-[10px] tracking-[0.5em] text-white/10 mb-6 group-hover:text-white/30 transition-colors duration-700">
+        SCENE 0{index + 1}
       </div>
 
       {/* Big word */}
-      <div className="overflow-hidden">
+      <div className="overflow-hidden relative">
         <h2
           ref={wordRef}
-          className="font-display text-[clamp(3.35rem,18vw,18rem)] leading-none tracking-[0.01em]"
-          style={{ color, willChange: 'transform' }}
+          className="font-display text-[clamp(3.5rem,18vw,20rem)] leading-[0.85] tracking-tight group-hover:scale-[1.02] transition-transform duration-1000 ease-expo"
+          style={{ color, willChange: 'transform, filter' }}
         >
           {text}
         </h2>
+        {/* Cinematic Sweep on Word */}
+        <div className="absolute inset-0 light-sweep opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
       </div>
 
       {/* Sub text */}
       <p
         ref={subRef}
-        className="font-body text-base text-white/40 tracking-[0.1em] mt-4"
+        className="font-body text-xs sm:text-base text-white/30 tracking-[0.2em] uppercase mt-8 group-hover:text-white/60 transition-colors duration-700"
       >
         {sub}
       </p>
@@ -87,10 +89,13 @@ function WordReveal({ text, color, sub, index }) {
         style={{ background: `linear-gradient(90deg, transparent, ${color}, transparent)` }}
       />
 
-      {/* Hover glow */}
+      {/* Hover glow - Immersive Deep Glow */}
       <div
-        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
-        style={{ background: `radial-gradient(ellipse 60% 50% at 50% 50%, ${color}08 0%, transparent 70%)` }}
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-1000 pointer-events-none"
+        style={{ 
+          background: `radial-gradient(circle at center, ${color}08 0%, transparent 70%)`,
+          filter: 'blur(60px)'
+        }}
       />
     </motion.div>
   )

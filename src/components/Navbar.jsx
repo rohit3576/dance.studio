@@ -26,122 +26,147 @@ export default function Navbar() {
   return (
     <>
       <motion.nav
-        initial={{ y: -80, opacity: 0 }}
+        initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
-        className={`fixed top-0 left-0 right-0 z-[9000] transition-all duration-500 ${
+        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+        className={`fixed top-0 left-0 right-0 z-[9000] transition-all duration-700 ${
           scrolled
-            ? 'py-3 bg-black/70 backdrop-blur-xl border-b border-white/10'
-            : 'py-4 md:py-6 bg-transparent'
+            ? 'py-4 bg-black/40 backdrop-blur-2xl border-b border-white/5'
+            : 'py-6 md:py-10 bg-transparent'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-5 md:px-6 flex items-center justify-between">
+        <div className="max-w-[1800px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <motion.div
-            className="flex items-center gap-3"
+            className="flex items-center gap-4 group cursor-pointer"
             whileHover={{ scale: 1.02 }}
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           >
-            <div className="relative">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#b347ff] to-[#00d4ff] animate-pulse-glow" />
-              <div className="absolute inset-0 w-8 h-8 rounded-full bg-gradient-to-br from-[#b347ff] to-[#00d4ff] blur-md opacity-60" />
+            <div className="relative w-10 h-10">
+              <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#b347ff] to-[#00d4ff] animate-pulse-glow" />
+              <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#b347ff] to-[#00d4ff] blur-lg opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute inset-[2px] rounded-full bg-black z-10 flex items-center justify-center">
+                <div className="w-1.5 h-1.5 rounded-full bg-white animate-ping" />
+              </div>
             </div>
-            <a href="#home" className="font-display text-xl md:text-2xl tracking-[0.18em] text-white">CIPHER</a>
+            <span className="font-display text-2xl tracking-[0.25em] text-white">CIPHER</span>
           </motion.div>
 
-          <div className="hidden md:flex items-center gap-8">
+          {/* Desktop Links */}
+          <div className="hidden md:flex items-center gap-12">
             {navLinks.map((link, i) => (
               <motion.a
                 key={link.label}
                 href={link.href}
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6 + i * 0.1, duration: 0.6 }}
-                className="font-body text-sm tracking-[0.15em] text-white/60 hover:text-white transition-colors duration-300 uppercase relative group"
+                transition={{ delay: 0.2 + i * 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                className="font-mono text-[10px] tracking-[0.3em] text-white/40 hover:text-white transition-all duration-500 uppercase relative group py-2"
               >
-                {link.label}
-                <span className="absolute -bottom-1 left-0 w-0 h-px bg-gradient-to-r from-[#b347ff] to-[#00d4ff] group-hover:w-full transition-all duration-300" />
+                <span className="relative z-10">{link.label}</span>
+                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-px bg-[#b347ff] group-hover:w-full transition-all duration-500 shadow-[0_0_10px_#b347ff]" />
               </motion.a>
             ))}
           </div>
 
-          <motion.button
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.1 }}
-            className="hidden md:block px-5 py-2 border border-[#b347ff]/50 text-[#b347ff] text-sm font-body tracking-[0.15em] uppercase hover:bg-[#b347ff]/10 transition-all duration-300 animate-border-pulse"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.97 }}
-          >
-            Book Now
-          </motion.button>
+          <div className="flex items-center gap-8">
+            <motion.button
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.8 }}
+              className="hidden md:flex items-center gap-3 px-8 py-3 bg-white text-black font-mono text-[10px] tracking-[0.3em] uppercase transition-all duration-500 hover:bg-[#b347ff] hover:text-white group"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <span>Book Now</span>
+              <div className="w-1.5 h-1.5 rounded-full bg-black group-hover:bg-white transition-colors" />
+            </motion.button>
 
-          <button
-            className="md:hidden relative z-[9100] flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-white"
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-            aria-expanded={menuOpen}
-          >
-            <span className="sr-only">{menuOpen ? 'Close menu' : 'Open menu'}</span>
-            <span className={`absolute h-px w-5 bg-white transition-transform duration-300 ${menuOpen ? 'rotate-45' : '-translate-y-1.5'}`} />
-            <span className={`absolute h-px w-5 bg-white transition-opacity duration-200 ${menuOpen ? 'opacity-0' : 'opacity-100'}`} />
-            <span className={`absolute h-px w-5 bg-white transition-transform duration-300 ${menuOpen ? '-rotate-45' : 'translate-y-1.5'}`} />
-          </button>
+            {/* Hamburger Button */}
+            <button
+              className="relative z-[9100] flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] backdrop-blur-md transition-all duration-500 hover:bg-white/10 hover:border-white/20"
+              onClick={() => setMenuOpen(!menuOpen)}
+              aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            >
+              <div className="relative w-6 h-5">
+                <span className={`absolute left-0 top-0 h-px w-full bg-white transition-all duration-500 ease-expo ${menuOpen ? 'rotate-45 translate-y-[9px]' : ''}`} />
+                <span className={`absolute left-0 top-1/2 -translate-y-1/2 h-px w-full bg-white transition-all duration-500 ease-expo ${menuOpen ? 'opacity-0 scale-x-0' : 'opacity-100'}`} />
+                <span className={`absolute left-0 bottom-0 h-px w-full bg-white transition-all duration-500 ease-expo ${menuOpen ? '-rotate-45 -translate-y-[10px]' : ''}`} />
+              </div>
+            </button>
+          </div>
         </div>
       </motion.nav>
 
       <AnimatePresence>
         {menuOpen && (
-          <motion.div className="fixed inset-0 z-[8998] md:hidden">
-            <motion.button
-              aria-label="Close menu overlay"
-              className="absolute inset-0 h-full w-full bg-black/70 backdrop-blur-sm"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.25 }}
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed inset-0 z-[8998] flex items-center justify-center"
+          >
+            {/* Backdrop with Heavy Blur */}
+            <div 
+              className="absolute inset-0 bg-black/90 backdrop-blur-3xl"
               onClick={() => setMenuOpen(false)}
             />
-            <motion.aside
-              initial={{ x: '100%', opacity: 0.98 }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ x: '100%', opacity: 0.98 }}
-              transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-              className="absolute right-0 top-0 flex h-full w-[82vw] max-w-sm flex-col justify-center gap-7 border-l border-white/10 bg-[#05050d]/95 px-8 shadow-[0_0_80px_rgba(179,71,255,0.25)]"
-            >
-              <button
-                className="absolute right-5 top-5 h-11 w-11 rounded-full border border-white/10 text-2xl leading-none text-white/80"
-                onClick={() => setMenuOpen(false)}
-                aria-label="Close menu"
-              >
-                x
-              </button>
-              <div className="mb-6">
-                <div className="mb-3 h-px w-16 bg-gradient-to-r from-[#b347ff] to-[#00d4ff]" />
-                <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-white/35">Menu</p>
+            
+            {/* Background Accents */}
+            <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+              <div className="absolute -top-[10%] -left-[10%] w-[50%] h-[50%] bg-[#b347ff]/10 blur-[150px] rounded-full animate-pulse-slow" />
+              <div className="absolute -bottom-[10%] -right-[10%] w-[50%] h-[50%] bg-[#00d4ff]/10 blur-[150px] rounded-full animate-pulse-slow" style={{ animationDelay: '2s' }} />
+            </div>
+
+            <nav className="relative z-10 w-full max-w-4xl px-8 text-center">
+              <div className="flex flex-col gap-6 sm:gap-10">
+                {navLinks.map((link, i) => (
+                  <motion.div
+                    key={link.label}
+                    initial={{ y: 60, opacity: 0, rotateX: -20 }}
+                    animate={{ y: 0, opacity: 1, rotateX: 0 }}
+                    exit={{ y: -60, opacity: 0, rotateX: 20 }}
+                    transition={{ 
+                      delay: 0.1 + i * 0.1, 
+                      duration: 0.8, 
+                      ease: [0.16, 1, 0.3, 1] 
+                    }}
+                  >
+                    <a
+                      href={link.href}
+                      onClick={() => setMenuOpen(false)}
+                      className="group relative inline-block"
+                    >
+                      <span className="font-display text-5xl sm:text-8xl tracking-tight text-white/20 transition-all duration-700 group-hover:text-white group-hover:tracking-widest">
+                        {link.label}
+                      </span>
+                      <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-display text-5xl sm:text-8xl tracking-tight text-white opacity-0 transition-all duration-700 group-hover:opacity-100 group-hover:tracking-widest blur-2xl group-hover:blur-0">
+                        {link.label}
+                      </span>
+                    </a>
+                  </motion.div>
+                ))}
               </div>
-              {navLinks.map((link, i) => (
-                <motion.a
-                  key={link.label}
-                  href={link.href}
-                  initial={{ opacity: 0, x: 24 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.12 + i * 0.07, duration: 0.35 }}
-                  onClick={() => setMenuOpen(false)}
-                  className="font-display text-4xl tracking-[0.12em] text-white/85 transition-colors duration-300 hover:text-white"
-                >
-                  {link.label}
-                </motion.a>
-              ))}
-              <motion.a
-                href="#contact"
-                initial={{ opacity: 0, y: 18 }}
+
+              {/* Footer Info in Menu */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.45, duration: 0.35 }}
-                onClick={() => setMenuOpen(false)}
-                className="mt-4 inline-flex min-h-12 items-center justify-center border border-[#00d4ff]/50 px-5 font-mono text-xs uppercase tracking-[0.2em] text-[#00d4ff] shadow-[0_0_28px_rgba(0,212,255,0.12)]"
+                exit={{ opacity: 0, y: 20 }}
+                transition={{ delay: 0.5, duration: 0.8 }}
+                className="mt-20 flex flex-col items-center gap-6"
               >
-                Book Trial
-              </motion.a>
-            </motion.aside>
+                <div className="h-px w-20 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+                <p className="font-mono text-[10px] tracking-[0.4em] text-white/30 uppercase">CIPHER DANCE STUDIO</p>
+                <div className="flex gap-8">
+                  {['Instagram', 'Youtube', 'Facebook'].map((social) => (
+                    <a key={social} href="#" className="font-mono text-[9px] tracking-widest text-white/50 hover:text-white transition-colors uppercase">
+                      {social}
+                    </a>
+                  ))}
+                </div>
+              </motion.div>
+            </nav>
           </motion.div>
         )}
       </AnimatePresence>

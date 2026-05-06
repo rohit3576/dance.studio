@@ -66,31 +66,16 @@ export default function SceneCTA() {
     const ctx = gsap.context(() => {
       gsap.fromTo(
         titleRef.current,
-        { scale: 0.9, opacity: 0 },
+        { scale: 0.95, opacity: 0, y: 30 },
         {
           scale: 1,
           opacity: 1,
-          duration: 0.9,
-          ease: 'power3.out',
+          y: 0,
+          duration: 1.2,
+          ease: 'expo.out',
           scrollTrigger: {
             trigger: titleRef.current,
-            start: 'top 82%',
-            toggleActions: 'play none none reverse',
-          },
-        }
-      )
-
-      gsap.fromTo(
-        contentRef.current,
-        { opacity: 0, y: 36 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.9,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: contentRef.current,
-            start: 'top 78%',
+            start: 'top 85%',
             toggleActions: 'play none none reverse',
           },
         }
@@ -104,156 +89,93 @@ export default function SceneCTA() {
     <section
       ref={sectionRef}
       id="contact"
-      className="scene-section relative w-full overflow-hidden py-20 md:py-28"
+      className="scene-section relative w-full overflow-hidden py-24 md:py-40"
       style={{ background: '#020205' }}
     >
+      {/* Cinematic Background */}
       <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute inset-0 bg-gradient-to-b from-[#020205] via-[#0d0520] to-[#020205] opacity-50" />
         <div
-          className="absolute left-1/2 top-1/2 h-[620px] w-[620px] -translate-x-1/2 -translate-y-1/2 rounded-full md:h-[900px] md:w-[900px]"
+          className="absolute left-1/2 top-1/2 h-[800px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-20"
           style={{
-            background: 'radial-gradient(circle, rgba(179,71,255,0.12) 0%, rgba(0,212,255,0.06) 40%, transparent 70%)',
-            filter: 'blur(58px)',
+            background: 'radial-gradient(circle, #b347ff 0%, transparent 70%)',
+            filter: 'blur(100px)',
           }}
         />
       </div>
 
-      <div
-        className="absolute bottom-0 left-0 h-48 w-36 opacity-10 animate-float pointer-events-none sm:h-60 sm:w-48"
-        style={{ transform: `translate3d(${mouseParallax.x * 20}px, ${mouseParallax.y * 10}px, 0)` }}
-      >
-        <DancerLeap color="#b347ff" className="h-full w-full" />
-      </div>
-      <div
-        className="absolute bottom-0 right-0 h-48 w-36 opacity-10 animate-float-2 pointer-events-none sm:h-60 sm:w-48"
-        style={{ transform: `scaleX(-1) translate3d(${mouseParallax.x * -15}px, ${mouseParallax.y * 15}px, 0)` }}
-      >
-        <DancerSpin color="#00d4ff" className="h-full w-full" />
-      </div>
-      <div
-        className="absolute left-[10%] top-8 h-36 w-28 opacity-8 animate-float-3 pointer-events-none sm:h-40 sm:w-32"
-        style={{ transform: `translate3d(${mouseParallax.x * 25}px, ${mouseParallax.y * 20}px, 0)` }}
-      >
-        <DancerArabesque color="#ff2d9b" className="h-full w-full" />
-      </div>
+      <div className="relative z-10 mx-auto max-w-7xl px-6">
+        <div ref={titleRef} className="text-center mb-20">
+          <motion.div
+            className="inline-flex items-center gap-4 mb-8"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+          >
+            <span className="h-px w-12 bg-[#b347ff]/40" />
+            <span className="font-mono text-[10px] uppercase tracking-[0.4em] text-[#b347ff]">JOIN THE MOVEMENT</span>
+            <span className="h-px w-12 bg-[#b347ff]/40" />
+          </motion.div>
 
-      <div className="relative z-10 mx-auto max-w-6xl px-5 text-center sm:px-6">
-        <motion.div
-          className="mb-8 flex items-center justify-center gap-4"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-        >
-          <span className="hidden h-px w-12 bg-[#b347ff]/40 sm:block" />
-          <span className="font-mono text-[10px] uppercase tracking-[0.28em] text-[#b347ff] sm:tracking-[0.4em]">Scene 05 - Contact</span>
-          <span className="hidden h-px w-12 bg-[#b347ff]/40 sm:block" />
-        </motion.div>
-
-        <div ref={titleRef} className="mb-6 will-change-transform">
-          <h2 className="font-display text-[clamp(3.35rem,14vw,14rem)] leading-[0.9] tracking-[0.01em]">
-            <span className="block gradient-text-purple">JOIN THE</span>
-            <span className="block text-white">MOVEMENT</span>
+          <h2 className="font-display text-[clamp(3.5rem,10vw,9rem)] leading-[0.85] tracking-tight mb-8">
+            READY TO <span className="gradient-text-purple glow-purple">ASCEND?</span>
           </h2>
+          <p className="font-body text-white/40 text-lg max-w-2xl mx-auto leading-relaxed">
+            Choose your path and start your journey with India's most elite dance community.
+          </p>
         </div>
 
-        <motion.p
-          className="mx-auto mb-12 max-w-xl font-body text-base leading-relaxed text-white/45 sm:mb-16 sm:text-lg"
-          initial={{ opacity: 0, y: 18 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.75, delay: 0.15 }}
-        >
-          Your first class is on us. Walk in curious, walk out moving differently. The floor is waiting.
-        </motion.p>
-
-        <div ref={contentRef} className="mb-12 grid gap-4 md:mb-16 md:grid-cols-3 md:gap-6">
+        <div className="grid gap-6 md:grid-cols-3 md:gap-8">
           {PLANS.map((plan, i) => (
             <motion.div
               key={plan.name}
-              className="relative p-5 text-left md:p-6"
-              style={{
-                border: `1px solid ${plan.color}${plan.featured ? '80' : '35'}`,
-                background: plan.featured ? `linear-gradient(135deg, ${plan.color}12 0%, rgba(255,255,255,0.02) 100%)` : 'rgba(255,255,255,0.02)',
-                boxShadow: plan.featured ? `0 0 42px ${plan.color}18` : 'none',
-              }}
-              initial={{ opacity: 0, y: 28 }}
+              initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.62, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
-              whileHover={{ y: -5 }}
+              transition={{ duration: 0.8, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
+              whileHover={{ y: -10 }}
+              className={`relative group ${plan.featured ? 'z-20' : 'z-10'}`}
             >
               {plan.featured && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 font-mono text-[10px] uppercase tracking-[0.2em]" style={{ background: plan.color, color: '#020205' }}>
-                  Popular
-                </div>
+                <div className="absolute -inset-[2px] rounded-[24px] bg-gradient-to-b from-[#b347ff] via-[#00d4ff] to-[#ff2d9b] opacity-40 blur-sm group-hover:opacity-100 transition-opacity duration-500" />
               )}
-              <div className="mb-4 font-mono text-xs tracking-[0.3em]" style={{ color: plan.color }}>{plan.name}</div>
-              <div className="mb-1 font-display text-4xl sm:text-5xl" style={{ color: plan.color }}>{plan.price}</div>
-              <div className="mb-6 font-mono text-[10px] uppercase tracking-[0.2em] text-white/30">{plan.period}</div>
-              <ul className="mb-8 space-y-2">
-                {plan.features.map((feature) => (
-                  <li key={feature} className="flex items-center gap-2 font-body text-sm text-white/45">
-                    <span style={{ color: plan.color }}>+</span>
-                    {feature}
-                  </li>
-                ))}
-              </ul>
-              <button
-                className="min-h-11 w-full font-mono text-xs uppercase tracking-[0.18em] transition-colors duration-300"
-                style={{ border: `1px solid ${plan.color}60`, color: plan.color }}
-                data-cursor-hover
-              >
-                {plan.cta}
-              </button>
+              <div className="glass-panel-heavy h-full p-8 sm:p-10 rounded-[22px] flex flex-col items-center text-center">
+                <div className="font-mono text-[10px] tracking-[0.4em] uppercase mb-8" style={{ color: plan.color }}>{plan.name}</div>
+                <div className="flex items-baseline gap-1 mb-2">
+                  <span className="font-display text-4xl sm:text-5xl text-white">{plan.price}</span>
+                </div>
+                <div className="font-mono text-[10px] text-white/30 uppercase tracking-widest mb-10">{plan.period}</div>
+                
+                <div className="w-full h-px bg-white/5 mb-10" />
+                
+                <ul className="w-full space-y-5 mb-12 flex-grow">
+                  {plan.features.map((feat) => (
+                    <li key={feat} className="font-body text-sm text-white/50 flex items-center justify-center gap-3">
+                      <div className="w-1 h-1 rounded-full" style={{ background: plan.color }} />
+                      {feat}
+                    </li>
+                  ))}
+                </ul>
+
+                <button 
+                  className="w-full py-5 rounded-xl font-mono text-[10px] tracking-[0.3em] uppercase transition-all duration-500 overflow-hidden relative group/btn"
+                  style={{ 
+                    background: plan.featured ? 'white' : 'transparent',
+                    color: plan.featured ? 'black' : 'white',
+                    border: plan.featured ? 'none' : '1px solid rgba(255,255,255,0.1)'
+                  }}
+                >
+                  <span className="relative z-10">{plan.cta}</span>
+                  {!plan.featured && (
+                    <div className="absolute inset-0 bg-white translate-y-full transition-transform duration-500 group-hover/btn:translate-y-0" />
+                  )}
+                  {!plan.featured && (
+                    <span className="absolute inset-0 flex items-center justify-center text-black opacity-0 transition-opacity duration-500 group-hover/btn:opacity-100 z-20">{plan.cta}</span>
+                  )}
+                </button>
+              </div>
             </motion.div>
           ))}
-        </div>
-
-        <motion.div
-          className="flex flex-col items-center justify-center gap-4 sm:flex-row"
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.75, delay: 0.25 }}
-        >
-          <GlowButton primary>START YOUR JOURNEY</GlowButton>
-          <GlowButton>BOOK A FREE TRIAL</GlowButton>
-        </motion.div>
-
-        <motion.div
-          className="mt-14 flex flex-col items-center justify-center gap-5 text-white/30 md:flex-row md:gap-8"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.75, delay: 0.35 }}
-        >
-          <a href="tel:+919876543210" className="font-mono text-xs tracking-[0.18em] transition-colors duration-300 hover:text-[#b347ff]" data-cursor-hover>
-            +91 98765 43210
-          </a>
-          <span className="hidden h-4 w-px bg-white/10 md:block" />
-          <a href="mailto:dance@cipher.studio" className="font-mono text-xs tracking-[0.18em] transition-colors duration-300 hover:text-[#b347ff]" data-cursor-hover>
-            dance@cipher.studio
-          </a>
-          <span className="hidden h-4 w-px bg-white/10 md:block" />
-          <span className="font-mono text-xs tracking-[0.18em]">Bandra West, Mumbai</span>
-        </motion.div>
-      </div>
-
-      <div className="relative z-10 mx-auto mt-20 max-w-6xl border-t border-white/5 px-5 pt-8 sm:px-6 md:mt-24">
-        <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-          <div className="flex items-center gap-3">
-            <div className="h-6 w-6 rounded-full bg-gradient-to-br from-[#b347ff] to-[#00d4ff]" />
-            <span className="font-display text-lg tracking-[0.2em]">CIPHER</span>
-          </div>
-          <p className="text-center font-mono text-[10px] tracking-[0.18em] text-white/25">
-            2026 CIPHER DANCE STUDIO. ALL RIGHTS RESERVED.
-          </p>
-          <div className="flex items-center gap-6">
-            {['IG', 'TW', 'YT', 'TK'].map((social) => (
-              <a key={social} href="#home" className="font-mono text-[10px] tracking-[0.2em] text-white/30 transition-colors duration-300 hover:text-[#b347ff]" data-cursor-hover>
-                {social}
-              </a>
-            ))}
-          </div>
         </div>
       </div>
     </section>
