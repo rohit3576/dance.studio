@@ -23,6 +23,20 @@ export default function Navbar() {
     return () => document.body.classList.remove('menu-open')
   }, [menuOpen])
 
+  useEffect(() => {
+    const desktopQuery = window.matchMedia('(min-width: 1024px)')
+    const closeOnDesktop = (event) => {
+      if (event.matches) {
+        setMenuOpen(false)
+      }
+    }
+
+    closeOnDesktop(desktopQuery)
+    desktopQuery.addEventListener('change', closeOnDesktop)
+
+    return () => desktopQuery.removeEventListener('change', closeOnDesktop)
+  }, [])
+
   return (
     <>
       <motion.nav
@@ -35,7 +49,7 @@ export default function Navbar() {
             : 'py-6 md:py-10 bg-transparent'
         }`}
       >
-        <div className="max-w-[1800px] mx-auto px-6 md:px-12 flex items-center justify-between">
+        <div className="max-w-[1800px] mx-auto px-5 sm:px-8 lg:px-12 xl:px-16 flex items-center justify-between">
           <motion.div
             className="flex items-center gap-4 group cursor-pointer"
             whileHover={{ scale: 1.02 }}
@@ -52,7 +66,7 @@ export default function Navbar() {
           </motion.div>
 
           {/* Desktop Links */}
-          <div className="hidden md:flex items-center gap-12">
+          <div className="hidden lg:flex items-center gap-10 xl:gap-12">
             {navLinks.map((link, i) => (
               <motion.a
                 key={link.label}
@@ -60,7 +74,7 @@ export default function Navbar() {
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 + i * 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                className="font-mono text-[10px] tracking-[0.3em] text-white/40 hover:text-white transition-all duration-500 uppercase relative group py-2"
+                className="font-mono text-[10px] tracking-[0.28em] text-white/55 hover:text-white transition-all duration-500 uppercase relative group py-3"
               >
                 <span className="relative z-10">{link.label}</span>
                 <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-px bg-[#b347ff] group-hover:w-full transition-all duration-500 shadow-[0_0_10px_#b347ff]" />
@@ -68,12 +82,12 @@ export default function Navbar() {
             ))}
           </div>
 
-          <div className="flex items-center gap-8">
+          <div className="flex items-center gap-5 lg:gap-8">
             <motion.button
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.8 }}
-              className="hidden md:flex items-center gap-3 px-8 py-3 bg-white text-black font-mono text-[10px] tracking-[0.3em] uppercase transition-all duration-500 hover:bg-[#b347ff] hover:text-white group"
+              className="hidden lg:flex items-center gap-3 px-7 xl:px-8 py-3 bg-white/95 text-black font-mono text-[10px] tracking-[0.28em] uppercase transition-all duration-500 hover:bg-[#b347ff] hover:text-white hover:shadow-[0_0_30px_rgba(179,71,255,0.35)] group"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -83,9 +97,11 @@ export default function Navbar() {
 
             {/* Hamburger Button */}
             <button
-              className="relative z-[9100] flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] backdrop-blur-md transition-all duration-500 hover:bg-white/10 hover:border-white/20"
+              className="relative z-[9100] flex lg:hidden h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] backdrop-blur-md transition-all duration-500 hover:bg-white/10 hover:border-white/20"
               onClick={() => setMenuOpen(!menuOpen)}
               aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={menuOpen}
+              aria-controls="mobile-menu-overlay"
             >
               <div className="relative w-6 h-5">
                 <span className={`absolute left-0 top-0 h-px w-full bg-white transition-all duration-500 ease-expo ${menuOpen ? 'rotate-45 translate-y-[9px]' : ''}`} />
@@ -100,11 +116,12 @@ export default function Navbar() {
       <AnimatePresence>
         {menuOpen && (
           <motion.div 
+            id="mobile-menu-overlay"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed inset-0 z-[8998] flex items-center justify-center"
+            className="fixed inset-0 z-[8998] flex items-center justify-center lg:hidden"
           >
             {/* Backdrop with Heavy Blur */}
             <div 

@@ -13,6 +13,7 @@
         margin: 0;
         min-height: 100vh;
         display: flex;
+        flex-wrap: wrap;
         gap: 24px;
         align-items: flex-start;
         justify-content: center;
@@ -26,16 +27,45 @@
         overflow: hidden;
         border: 1px solid #333;
         background: #000;
+        transform-origin: top left;
       }
 
-      .iphone {
+      .desktop {
+        width: 1920px;
+        height: 1080px;
+        transform: scale(0.34);
+      }
+
+      .desktop-wrap {
+        width: 653px;
+        height: 367px;
+      }
+
+      .laptop {
+        width: 1440px;
+        height: 900px;
+        transform: scale(0.44);
+      }
+
+      .laptop-wrap {
+        width: 634px;
+        height: 396px;
+      }
+
+      .tablet {
+        width: 820px;
+        height: 1180px;
+        transform: scale(0.42);
+      }
+
+      .tablet-wrap {
+        width: 344px;
+        height: 496px;
+      }
+
+      .mobile {
         width: 390px;
         height: 844px;
-      }
-
-      .android {
-        width: 360px;
-        height: 740px;
       }
 
       .label {
@@ -51,12 +81,20 @@
   </head>
   <body>
     <div>
-      <div class="label">iPhone 12/13 - 390x844</div>
-      <div class="device iphone"><iframe src="/#home"></iframe></div>
+      <div class="label">Desktop - 1920x1080</div>
+      <div class="desktop-wrap"><div class="device desktop"><iframe src="/#home"></iframe></div></div>
     </div>
     <div>
-      <div class="label">Low Android - 360x740</div>
-      <div class="device android"><iframe src="/#home"></iframe></div>
+      <div class="label">Laptop - 1440x900</div>
+      <div class="laptop-wrap"><div class="device laptop"><iframe src="/#home"></iframe></div></div>
+    </div>
+    <div>
+      <div class="label">Tablet - 820x1180</div>
+      <div class="tablet-wrap"><div class="device tablet"><iframe src="/#home"></iframe></div></div>
+    </div>
+    <div>
+      <div class="label">Mobile - 390x844</div>
+      <div class="device mobile"><iframe src="/#home"></iframe></div>
     </div>
   </body>
 </html>
